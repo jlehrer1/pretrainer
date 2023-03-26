@@ -1,4 +1,4 @@
-FROM anibali/pytorch:1.10.2-cuda11.3
+FROM anibali/pytorch:2.0.0-cuda11.8
 USER root
 
 WORKDIR /src
@@ -11,8 +11,6 @@ RUN sudo apt-get --allow-releaseinfo-change update && \
     curl \
     sudo \
     vim
-
-RUN curl -L https://bit.ly/glances | /bin/bash
 
 RUN pip install matplotlib \
     seaborn \
