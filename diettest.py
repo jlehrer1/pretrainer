@@ -43,7 +43,7 @@ class ModelWrapper(pl.LightningModule):
 if __name__ == '__main__':
     train = torchvision.datasets.CIFAR100(root='./', train=True, transform=tt.ToTensor(), download=True)
     traindiet = DietDataset(train)
-    trainloader = DataLoader(traindiet, batch_size=4, num_workers=0, shuffle=True)
+    trainloader = DataLoader(traindiet, batch_size=256, num_workers=32, shuffle=True)
 
     model = torchvision.models.resnet18()
     model.fc = nn.Linear(model.fc.in_features, len(train))
@@ -59,7 +59,7 @@ if __name__ == '__main__':
         aws_secret_access_key=access,
     )
 
-    trainer = pl.Trainer(max_epochs=100, logger=pl.loggers.WandbLogger(project='Pretraining-DIET'), callbacks=[
+    trainer = pl.Trainer(max_epochs=5000, logger=pl.loggers.WandbLogger(project='Pretraining-DIET'), callbacks=[
         UploadCheckpointToS3(
             local_path='./', 
             desc='diet-pretraining', 
@@ -69,6 +69,6 @@ if __name__ == '__main__':
             n_epochs=10,
             n_steps=None,
         )
-    ], limit_train_batches=10)
+    ])
     trainer.fit(model, trainloader)
 

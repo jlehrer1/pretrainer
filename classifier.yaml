@@ -1,25 +1,25 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: jl-scbert-finetune-acc10-500-epoch
+  name: jl-diet-pretraining
 spec:
   backoffLimit: 1
   completions: 1
   template:
     metadata:
       labels:
-        k8s-app: jl-scbert-finetune
+        k8s-app: jl-diet-pretraining
     spec:
       restartPolicy: Never
       containers:
-      - name: jl-scbert-finetune
-        image: jmlehrer/scbert:latest
+      - name: jl-diet-pretraining
+        image: jmlehrer/pretrainer
         command: ["stdbuf", "-i0", "-o0", "-e0", "bash", "-c"]
         env:
         - name: PYTHONUNBUFFERED
           value: "1"
         args: [
-          "python -m torch.distributed.launch finetune.py --model_path ./panglao_pretrain.pth --label categorical_subclass_label --batch_size=2 --grad_acc=10 --epoch=500"
+          "python diettest.py"
         ]
         resources:
           limits:

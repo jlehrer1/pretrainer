@@ -5,6 +5,7 @@ import boto3
 import numpy as np
 import pytorch_lightning as pl
 
+
 class UploadCheckpointToS3(Callback):
     """Custom PyTorch callback for uploading model checkpoints to a s3_resource bucket using a boto3
     resource object."""

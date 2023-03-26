@@ -27,4 +27,4 @@ RUN pip install matplotlib \
     scipy \
     torchmetrics
 
-COPY . .
+COPY .. .
